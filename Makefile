@@ -11,6 +11,9 @@ PART=TM4C123GH6PM
 # Location of the TivaWare root directory
 TIVAWARE_LIB = /home/mike/compile/TivaWare
 
+#OpenOCD Board Configuration File (for: make program)
+BOARD_CONFIG_FILE=/usr/local/share/openocd/scripts/board/ek-lm4f120xl.cfg
+
 # put your *.o targets here, make should handle the rest!
 #SRCS = $(PROJ_NAME).c $(TIVAWARE_LIB)/examples/boards/ek-tm4c123gxl/hello/startup_gcc.c
 
@@ -51,7 +54,7 @@ ifneq (${MAKECMDGOALS},clean)
 endif
 
 program: gcc/$(PROJ_NAME).bin 
-	openocd --file /usr/local/share/openocd/scripts/board/ek-tm4c123gxl.cfg -f extra/tiva-launchpad.cfg -c "tiva_flash `basename $(CURID)` gcc/$(PROJ_NAME).bin" -c shutdown
+	openocd --file $(BOARD_CONFIG_FILE) -f extra/tiva-launchpad.cfg -c "tiva_flash `basename $(CURID)`gcc/$(PROJ_NAME).bin" -c shutdown
 
 clean:
 	@rm -vf gcc/*
